@@ -68,7 +68,7 @@ def gedi_aoi_process(data_dir, out_dir, poly, qual):
     start_time = time.time()
     l = os.listdir(out_dir)
     existing_pkls = [x.split('.')[0] for x in l]
-    counter = len(existing_pkls)
+    counter = 0
     gedi_file_list = []
     
     for root, dirs, files in os.walk(data_dir):
@@ -107,14 +107,15 @@ def gedi_aoi_process(data_dir, out_dir, poly, qual):
         del(df)
 
     print("Concatinating dataframes")
-    out_gdf = pd.concat(pkl_list)
+    out_df = pd.concat(pkl_list)
+    del out_df['index_right']
     pkl_list.clear()
     
     print("Writing .shp")
-    out_gdf.to_file(out_dir + "/out.shp")
+    out_df.to_file(out_dir + "/out.shp")
     
     print("Writing .csv")
-    out_gdf.to_csv(out_dir + "out.csv")
+    out_df.to_csv(out_dir + "out.csv")
     
     end_time = time.time()
     hours, rem = divmod(end_time - start_time, 3600)
