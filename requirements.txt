@@ -1,0 +1,4 @@
+geopandas
+h5py
+pyGEDI
+pandas
